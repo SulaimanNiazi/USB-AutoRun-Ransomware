@@ -5,3 +5,5 @@ dist/**
 #files
 USB/*.exe
 ransomware.spec
+**.code-workspace
+**.key

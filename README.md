@@ -4,7 +4,7 @@
 
 ---
 
-## 🔎 Purpose
+## 🔍 Purpose
 
 This project demonstrates how a USB-based executable can simulate ransomware behavior in a safe, controlled, and non-destructive manner. It is designed for:
 
@@ -15,7 +15,7 @@ This project demonstrates how a USB-based executable can simulate ransomware beh
 
 ---
 
-## 🚩 WARNING
+## 🚨 WARNING
 
 > **This project is for educational use only.**
 
@@ -31,15 +31,22 @@ You are fully responsible for how you use this software.
 
 When a USB containing the executable and `autorun.inf` is inserted (on systems that still support autorun), the program:
 
-1. Simulates encryption of a dummy folder using symmetric encryption.
-2. Displays a fullscreen lock screen demanding a key.
-3. Blocks certain system keys like `Windows` and `Alt` to simulate lock-down.
+1. Creates `README.txt` warning files on the Desktop, Documents, and Downloads folders.
+2. Simulates encryption of a dummy folder using symmetric encryption.
+3. Displays a fullscreen lock screen demanding a key.
+4. Blocks certain system keys like `Windows` and `Alt` to simulate lock-down.
+5. Requests **administrator privileges** automatically on launch for full functionality (e.g. Task Manager lockout).
 
 > Note: Autorun is disabled by default on modern Windows versions. Manual execution may be required.
 
+To use the USB feature effectively:
+- Copy the contents of this repository (especially `autorun.inf` and the `.exe` file) onto the **root of a USB drive**.
+- On legacy Windows systems that support autorun, inserting the USB will auto-execute the ransomware demo.
+- On modern systems, the executable must be manually run from the USB.
+
 ---
 
-## 📆 Requirements
+## 📦 Requirements
 
 Before using, ensure you have:
 
@@ -57,11 +64,11 @@ To create an executable:
 ```bash
 python convert_py_to_exe.py
 ```
-The `.exe` will appear in the `dist` folder.
+The `.exe` will appear in the `dist` folder, and will be copied to the `USB` folder. When run, it will request admin access automatically.
 
 ---
 
-## 🚓 Applications
+## 🚙 Applications
 
 - Cybersecurity demonstrations in school/university settings
 - Training exercises for red-team/blue-team environments
@@ -70,12 +77,13 @@ The `.exe` will appear in the `dist` folder.
 
 ---
 
-## 🔢 Safety Precautions
+## 🔐 Safety Precautions
 
 - Always run this demo on test systems or virtual machines
 - Do not use in production or live environments
 - Ensure sensitive data is not present in the test folder (`Dummy folder`)
 - Clearly inform users this is a **simulation** before running
+- Administrator permissions may be requested to demonstrate full effect
 
 ---
 

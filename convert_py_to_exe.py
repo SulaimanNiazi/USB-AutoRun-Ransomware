@@ -39,12 +39,13 @@ def find_py_file():
         return py_file
     else:
         # Enter Manually if no .py file is found
-        while True:    
+        for x in range(6):    
             py_file = input("Enter the path to your Python (.py) file: ").strip()
             if os.path.isfile(py_file):
                 return py_file
             else:
-                print("Error: The specified Python file does not exist.")
+                print(f"Error: The specified Python file does not exist.\n{5-x} tries left")
+        return None
 
 if __name__ == "__main__":
     py_file = find_py_file()

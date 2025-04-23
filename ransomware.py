@@ -18,8 +18,10 @@ blocked_keys = ['left windows', 'right windows', 'alt', 'alt gr']
 DEMO_KEY = "1234ABCD"
 
 def run_as_admin():
+    """
+    Request admin privileges for the script and re-run it.
+    """
     if not ctypes.windll.shell32.IsUserAnAdmin():
-        print("Requesting admin privileges...")
         script = os.path.abspath(sys.argv[0])
         params = " ".join([f'"{arg}"' for arg in sys.argv[1:]])
         # Relaunch with admin

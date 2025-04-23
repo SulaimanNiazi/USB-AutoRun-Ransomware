@@ -31,10 +31,9 @@ You are fully responsible for how you use this software.
 
 When a USB containing the executable and `autorun.inf` is inserted (on systems that still support autorun), the program:
 
-1. Creates `README.txt` warning files on the Desktop, Documents, and Downloads folders.
-2. Simulates encryption of a dummy folder using symmetric encryption.
-3. Displays a fullscreen lock screen demanding a key.
-4. Blocks certain system keys like `Windows` and `Alt` to simulate lock-down.
+1. Simulates encryption of a dummy folder using symmetric encryption.
+2. Displays a fullscreen lock screen demanding a key.
+3. Blocks certain system keys like `Windows` and `Alt` to simulate lock-down.
 
 > Note: Autorun is disabled by default on modern Windows versions. Manual execution may be required.
 

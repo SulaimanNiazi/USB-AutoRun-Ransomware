@@ -3,4 +3,5 @@ build/**
 dist/**
 
 #files
+USB/*.exe
 ransomware.spec

@@ -25,6 +25,11 @@ This project demonstrates how a USB-based executable can simulate ransomware beh
 
 You are fully responsible for how you use this software.
 
+**Do not forget the unlock key!** If the key is lost or forgotten, only a **power reset (reboot)** will end the simulation. However, the encrypted files will remain locked.
+
+To decrypt them, use the open-source Python decryption tool available here:
+👉 https://github.com/SulaimanNiazi/Python-Directory-Encryptor.git
+
 ---
 
 ## 🚀 How It Works
@@ -40,6 +45,7 @@ When a USB containing the executable and `autorun.inf` is inserted (on systems t
 > Note: Autorun is disabled by default on modern Windows versions. Manual execution may be required.
 
 To use the USB feature effectively:
+
 - Copy the contents of this repository (especially `autorun.inf` and the `.exe` file) onto the **root of a USB drive**.
 - On legacy Windows systems that support autorun, inserting the USB will auto-execute the ransomware demo.
 - On modern systems, the executable must be manually run from the USB.
@@ -56,15 +62,18 @@ Before using, ensure you have:
 - `tkinter` (usually included with Python on Windows)
 
 Install dependencies:
+
 ```bash
 pip install -r requirements.txt
 ```
 
 To create an executable:
+
 ```bash
 python convert_py_to_exe.py
 ```
-The `.exe` will appear in the `dist` folder, and will be copied to the `USB` folder. When run, it will request admin access automatically.
+
+The `.exe` will appear in the `dist` folder. When run, it will request admin access automatically.
 
 ---
 
@@ -84,6 +93,10 @@ The `.exe` will appear in the `dist` folder, and will be copied to the `USB` fol
 - Ensure sensitive data is not present in the test folder (`Dummy folder`)
 - Clearly inform users this is a **simulation** before running
 - Administrator permissions may be requested to demonstrate full effect
+- **Antivirus software will likely detect and delete `ransomware.py` or the compiled `.exe`.**
+  - This is due to behavior that mimics real malware (fullscreen lock, encryption simulation, key blocking)
+  - For proper testing, temporarily **disable antivirus or add an exclusion** for the test folder
+  - Do this only on **safe, isolated systems**, such as offline virtual machines
 
 ---
 
@@ -105,3 +118,4 @@ Stay ethical. Stay secure.
 ---
 
 **Created for cybersecurity education and awareness.**
+

